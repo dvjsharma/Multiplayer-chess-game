@@ -1,0 +1,1 @@
+will be developing a multiplayer chess game with full functionality
