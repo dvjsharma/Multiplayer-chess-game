@@ -102,6 +102,23 @@ function data(r,c){
     let Div=document.getElementById(`${r}${c}`);
     return Div;
 }
+// //optimisation for knight
+// function knightcall(rc,cc,coloro){
+//     let nums=[];
+//     if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+//         let div=data(rc,cc);
+//         let flag=datalistner(div, coloro);
+//         if(flag[0]===false){
+//             if(flag[1].classList[1]==="kill"){
+//                 nums.push(flag[1]);
+//             }
+//         }
+//         else{
+//         nums.push(flag[1]);
+//         }
+//     }
+//     return nums;
+// }
 
 
 //defining functions for each key
@@ -167,6 +184,118 @@ function rook(string,coloro){
     fr=String(r); fc=String(c); fnums=nums;
 }
 
+function knight(string,coloro){
+    let nums=[];
+    let r= parseInt(string[0]), c=parseInt(string[1]);
+    let rc=r, cc=c;
+    //for +y
+    rc-=2; cc++;
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    cc-=2; 
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    rc++, cc--;
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    cc+=4;
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    rc+=2;
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    cc-=4;
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    rc++, cc++;
+    if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    cc+=2;if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
+        let div=data(rc,cc);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    fr=String(r); fc=String(c); fnums=nums;
+}
+
+
 
 
 
@@ -225,6 +354,8 @@ const Click=(e)=>{
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
                 }
+                if(turn==="w") turn="b";
+                else turn="w";
             }
         }
         else{  //handeling all cases when the user has clicked on a div having no image it may be in fnums or may not be
@@ -235,6 +366,8 @@ const Click=(e)=>{
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
                 }
+                if(turn==="w") turn="b";
+                else turn="w";
             } 
             else{ //when user clicked on a div not inside nums and want to revert
                 for(let i=0; i<fnums.length; i++){
@@ -242,8 +375,6 @@ const Click=(e)=>{
                 }
             }
         }
-        if(turn==="w") turn="b";
-        else turn="w";
     }
 }
 // calling all setup functions on reload/restart
