@@ -3,29 +3,35 @@ ColorCodes={
     dark: "#d18b47",
 };
 
+//initial global calls
 let turn="w";
-
-//  to add alternate colors to the chess board
 let cells=document.getElementsByClassName("cell");
-let c=0;
-let flag=true;
-for(let i=0; i<cells.length; i++){
-    if(flag===true){
-        cells[i].style.backgroundColor=`${ColorCodes.light}`;
-        flag=false;
-        c++;
-    }
-    else{
-        cells[i].style.backgroundColor=`${ColorCodes.dark}`;
-        flag=true;
-        c++;
-    }
-    if(c%8===0){
-        flag=(!flag);
-        c=0;
-    }
-}  
-//adding intial images
+let flagg=true;
+let fr=null, fc=null, fnums=[];
+
+//for setting the alternate chessboard color schema
+function ColorSetup(){
+    //  to add alternate colors to the chess board
+    let c=0;
+    let flag=true;
+    for(let i=0; i<cells.length; i++){
+        if(flag===true){
+            cells[i].style.backgroundColor=`${ColorCodes.light}`;
+            flag=false;
+            c++;
+        }
+        else{
+            cells[i].style.backgroundColor=`${ColorCodes.dark}`;
+            flag=true;
+            c++;
+        }
+        if(c%8===0){
+            flag=(!flag);
+            c=0;
+        }
+    }  
+}
+//obj to access the images anytime
 const images={
     rook: {f:"rook_b",s:"rook_w"},
     knight: {f:"knight_b",s:"knight_w"},
@@ -34,58 +40,34 @@ const images={
     king: {f:"king_b",s:"king_w"},
     pawn: {f:"pawn_b",s:"pawn_w"},
 }
-cells[0].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
-cells[1].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
-cells[2].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
-cells[3].innerHTML=`<img class="img queen_b"src="img-src/queen_b.png" alt=""></img>`;
-cells[4].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
-cells[5].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
-cells[6].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
-cells[7].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
+//to set-up all the keys to initial values
+function InitialBuild(){
+    cells[33].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
+    cells[1].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
+    cells[2].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
+    cells[3].innerHTML=`<img class="img queen_b"src="img-src/queen_b.png" alt=""></img>`;
+    cells[4].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
+    cells[5].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
+    cells[6].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
+    cells[7].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
 
 
-for(let i=8; i<16; i++){
-    cells[i].innerHTML=`<img class="img pawn_b"src="img-src/pawn_b.png" alt=""></img>`;
+    for(let i=8; i<16; i++){
+        cells[i].innerHTML=`<img class="img pawn_b"src="img-src/pawn_b.png" alt=""></img>`;
+    }
+    for(let i=48; i<56; i++){
+        cells[i].innerHTML=`<img class="img pawn_w"src="img-src/pawn_w.png" alt=""></img>`;
+    }
+
+    cells[34].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
+    cells[57].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
+    cells[58].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
+    cells[59].innerHTML=`<img class="img queen_w"src="img-src/queen_w.png" alt=""></img>`;
+    cells[60].innerHTML=`<img class="img king_w"src="img-src/king_w.png" alt=""></img>`;
+    cells[61].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
+    cells[62].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
+    cells[44].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
 }
-for(let i=48; i<56; i++){
-    cells[i].innerHTML=`<img class="img pawn_w"src="img-src/pawn_w.png" alt=""></img>`;
-}
-
-cells[34].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
-cells[57].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
-cells[58].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
-cells[59].innerHTML=`<img class="img queen_w"src="img-src/queen_w.png" alt=""></img>`;
-cells[60].innerHTML=`<img class="img king_w"src="img-src/king_w.png" alt=""></img>`;
-cells[61].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
-cells[62].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
-cells[44].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
-
-let flagg=true;
-// function behaviour(r,c, nums){
-//     const id=r+c;
-//     const inner=document.getElementById(`${id}`).innerHTML;
-//     const container=document.getElementsByClassName("container");
-//     container[0].addEventListener('click',(e)=>{
-//         if(e.target.parentNode.id===id){
-//             behaviour(r,c);
-//             return;
-//         }
-//         // console.log(e.target);
-//         // console.log(nums);
-//         if(nums.includes(e.target)) {
-//             e.target.innerHTML=`${inner}`;
-//             document.getElementById(`${id}`).innerHTML=``;
-//             for(let i=0; i<nums.length; i++){
-//                 nums[i].classList.remove("kill", "active");
-//             }
-//         } 
-//         else{
-//             for(let i=0; i<nums.length; i++){
-//                 nums[i].classList.remove("kill", "active");
-//             }
-//         }
-//     });
-// }
 //class and logic add function 
 function datalistner(div, coloro){
     if(div.innerHTML.length!==0){                               //%change this to 0 later
@@ -122,7 +104,6 @@ function data(r,c){
 }
 
 
-let fr=null, fc=null, fnums=[];
 //defining functions for each key
 function rook(string,coloro){
     let nums=[];
@@ -192,13 +173,17 @@ function rook(string,coloro){
 const Click=(e)=>{
     //handeling the first click event ie the user selects a key to show possible outcomes
     if(flagg===true){
-        flagg=false;
         let temp=e.target.classList;
         let color=temp[1][temp[1].length-1]
         let key=temp[1].slice(0, temp[1].length-2);
-        if(e.target.classList[0]!=="img" || (turn==="w" && color==="b") || (turn==="b" && color==="w")){
+        if(e.target.classList[0]!=="img"){
             return;
         }
+        if((turn==="w" && color==="b") || (turn==="b" && color==="w")){
+            alert("Not your turn :)");
+            return;
+        }
+        flagg=false;
         // console.log(color);
         // console.log(key);
         if(key==="rook"){        
@@ -224,9 +209,9 @@ const Click=(e)=>{
     else{
 
         flagg=true;
-
         const id=fr+fc;
         const inner=document.getElementById(`${id}`).innerHTML;
+
         if(e.target.parentNode.id!==""){ //handeling all the cases when the user clicked on a div haveing image
             if(e.target.parentNode.id===id || !fnums.includes(e.target.parentNode)){ //means the image is either key itself or the user clicked on another IMAGE not being heighlighted
                 for(let i=0; i<fnums.length; i++){
@@ -234,27 +219,37 @@ const Click=(e)=>{
                 }
             }
             else if(e.target.parentNode.classList[1]==="kill"){ //means user has initiated the kill move
-                //it the kill key so make a kill move
                 console.log("kill move");
+                e.target.parentNode.innerHTML=`${inner}`;
+                document.getElementById(`${id}`).innerHTML=``;
+                for(let i=0; i<fnums.length; i++){
+                    fnums[i].classList.remove("kill", "active");
+                }
             }
         }
         else{  //handeling all cases when the user has clicked on a div having no image it may be in fnums or may not be
-            console.log(e.target);
-            // if(nums.includes(e.target)) {
-            //     e.target.innerHTML=`${inner}`;
-            //     document.getElementById(`${id}`).innerHTML=``;
-            //     for(let i=0; i<nums.length; i++){
-            //         nums[i].classList.remove("kill", "active");
-            //     }
-            // } 
-            // else{
-            //     for(let i=0; i<nums.length; i++){
-            //         nums[i].classList.remove("kill", "active");
-            //     }
-            // }
+            // console.log(e.target);
+            if(fnums.includes(e.target)){ //case when user wishes to migrate
+                e.target.innerHTML=`${inner}`;
+                document.getElementById(`${id}`).innerHTML=``;
+                for(let i=0; i<fnums.length; i++){
+                    fnums[i].classList.remove("kill", "active");
+                }
+            } 
+            else{ //when user clicked on a div not inside nums and want to revert
+                for(let i=0; i<fnums.length; i++){
+                    fnums[i].classList.remove("kill", "active");
+                }
+            }
         }
+        if(turn==="w") turn="b";
+        else turn="w";
     }
 }
+// calling all setup functions on reload/restart
+ColorSetup();
+InitialBuild();
+
 //adding the first and global event listner to the whole chess board
 for(let i=0; i<cells.length; i++){
     cells[i].addEventListener("click",Click)
