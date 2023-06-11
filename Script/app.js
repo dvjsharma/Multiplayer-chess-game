@@ -53,12 +53,15 @@ function InitialBuild(){
     cells[6].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
     cells[7].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
 
-
+    let p=0;
     for(let i=8; i<16; i++){
-        cells[i].innerHTML=`<img class="img pawn_b first" src="img-src/pawn_b.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_b first" id="1${p}" src="img-src/pawn_b.png" alt=""></img>`;
+        p++
     }
+    p=0;
     for(let i=48; i<56; i++){
-        cells[i].innerHTML=`<img class="img pawn_w first" src="img-src/pawn_w.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_w first" id="6${p}" src="img-src/pawn_w.png" alt=""></img>`;
+        p++;
     }
 
     cells[56].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
@@ -686,7 +689,6 @@ const Click=(e)=>{
     }
     //handeling the other event when the user has all the possibilities highlighted and now wants to make move
     else{
-
         flagg=true;
         const id=fr+fc;
         const inner=document.getElementById(`${id}`).innerHTML;
@@ -698,16 +700,29 @@ const Click=(e)=>{
                 }
             }
             else if(e.target.parentNode.classList[1]==="kill"){ //means user has initiated the kill move
+        
                 e.target.parentNode.innerHTML=`${inner}`;
                 document.getElementById(`${id}`).innerHTML=``;
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
                 }
+
                 if(pawncontrol===true){  //pawn control case
                     console.log("im in");
-                    console.log(e.target.children[0].classList);
-                    // e.target.children[0].classList.remove("first");
-                    // e.target.children[0].classList.add("second");
+                    let pb=document.getElementsByClassName("pawn_b");
+                    let pw=document.getElementsByClassName("pawn_w");
+                    for(let i=0; i<pb.length; i++){
+                        if(pb[i].id===id){
+                           pb[i].classList.remove("first");
+                           pb[i].classList.add("second");
+                        }
+                    }
+                    for(let i=0; i<pw.length; i++){
+                        if(pw[i].id===id){
+                           pw[i].classList.remove("first");
+                           pw[i].classList.add("second");
+                        }
+                    }
                     pawncontrol=false;
                 }
 
