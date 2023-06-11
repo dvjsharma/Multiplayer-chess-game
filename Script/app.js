@@ -61,7 +61,7 @@ function InitialBuild(){
 
     cells[34].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
     cells[57].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
-    cells[58].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
+    cells[39].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
     cells[59].innerHTML=`<img class="img queen_w"src="img-src/queen_w.png" alt=""></img>`;
     cells[60].innerHTML=`<img class="img king_w"src="img-src/king_w.png" alt=""></img>`;
     cells[61].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
@@ -295,8 +295,67 @@ function knight(string,coloro){
     fr=String(r); fc=String(c); fnums=nums;
 }
 
-
-
+function bishop(string, coloro){
+    let nums=[];
+    let r= parseInt(string[0]), c=parseInt(string[1]);
+    //for +x,+y
+    for(let i=r-1, j=c+1; i>=0 && i<=7 && j<=7 && j>=0 ; i--, j++){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    //for -x, +y
+    for(let i=r-1, j=c-1; i>=0 && i<=7 && j<=7 && j>=0 ; i--, j--){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    //for -x -y
+    for(let i=r+1, j=c-1; i>=0 && i<=7 && j<=7 && j>=0 ; i++, j--){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    //for +x -y
+    for(let i=r+1, j=c+1; i>=0 && i<=7 && j<=7 && j>=0 ; i++, j++){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+    }
+    fr=String(r); fc=String(c); fnums=nums;
+}
 
 
 const Click=(e)=>{
