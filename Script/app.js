@@ -8,6 +8,8 @@ let turn="w";
 let cells=document.getElementsByClassName("cell");
 let flagg=true;
 let fr=null, fc=null, fnums=[];
+let pawncall=false;
+let pawncontrol=false;
 
 //for setting the alternate chessboard color schema
 function ColorSetup(){
@@ -46,17 +48,17 @@ function InitialBuild(){
     cells[1].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
     cells[44].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
     cells[3].innerHTML=`<img class="img queen_b"src="img-src/queen_b.png" alt=""></img>`;
-    cells[4].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
+    cells[24].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
     cells[5].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
     cells[6].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
     cells[7].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
 
 
     for(let i=8; i<16; i++){
-        cells[i].innerHTML=`<img class="img pawn_b"src="img-src/pawn_b.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_b" id="first" src="img-src/pawn_b.png" alt=""></img>`;
     }
     for(let i=48; i<56; i++){
-        cells[i].innerHTML=`<img class="img pawn_w"src="img-src/pawn_w.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_w" id="first" src="img-src/pawn_w.png" alt=""></img>`;
     }
 
     cells[56].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
@@ -74,21 +76,41 @@ function datalistner(div, coloro){
         let temp=div.children[0].classList[1].length
         let color=div.children[0].classList[1][temp-1];
         if(coloro==="w"){
-            if(color==="w"){
-                return [false, div];
+            if(pawncall===false){
+                if(color==="w"){
+                    return [false, div];
+                }
+                else{
+                    div.classList.add("kill");
+                    return [false, div];
+                }
             }
             else{
-                div.classList.add("kill");
-                return [false, div];
+                if(color==="w"){
+                    return [false, div];
+                }
+                else{
+                    return [false, div];
+                }
             }
         }
         else if(coloro==="b"){
-            if(color==="b"){
-                return [false, div];
+            if(pawncall===false){
+                if(color==="b"){
+                    return [false, div];
+                }
+                else{
+                    div.classList.add("kill");
+                    return [false, div];
+                }
             }
             else{
-                div.classList.add("kill");
-                return [false, div];
+                if(color==="w"){
+                    return [false, div];
+                }
+                else{
+                    return [false, div];
+                }
             }
         }
     }
@@ -315,6 +337,9 @@ function bishop(string, coloro,f){
                 nums.push(flag[1]);
                 break;
             }
+            else{
+                break;
+            }
         }
         else{
         nums.push(flag[1]);
@@ -327,6 +352,9 @@ function bishop(string, coloro,f){
         if(flag[0]===false){
             if(flag[1].classList[1]==="kill"){
                 nums.push(flag[1]);
+                break;
+            }
+            else{
                 break;
             }
         }
@@ -343,6 +371,9 @@ function bishop(string, coloro,f){
                 nums.push(flag[1]);
                 break;
             }
+            else{
+                break;
+            }
         }
         else{
         nums.push(flag[1]);
@@ -355,6 +386,9 @@ function bishop(string, coloro,f){
         if(flag[0]===false){
             if(flag[1].classList[1]==="kill"){
                 nums.push(flag[1]);
+                break;
+            }
+            else{
                 break;
             }
         }
@@ -372,9 +406,234 @@ function bishop(string, coloro,f){
         }
     }
 }
+
 function queen(string, coloro){
     rook(string, coloro, true);
     bishop(string, coloro, true);
+}
+
+function pawn(string, coloro){
+    pawncall=true;
+    let nums=[];
+    let r= parseInt(string[0]), c=parseInt(string[1]);
+    if(coloro==="w"){
+        //+y just above
+        let div=data(r-1,c);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===true){
+            nums.push(flag[1]);
+
+            //taking care of the first move
+            // pawncontrol=true;
+            // let haha=data(r,c);
+            // if(haha.childNodes[0].id==="first"){
+            //     if(r-2<=7 && r-2>=0 && c<=7 && c>=0){
+            //         let div4=data(r-2,c);
+            //         pawncall=false;
+            //         let flag4=datalistner(div4, coloro);
+            //             if(flag4[0]===true){
+            //                 nums.push(flag4[1]);
+            //             }
+            //         pawncall=true;
+                    
+            //     }
+            // }
+        }
+        //hybrid kill function
+        if(r-1<=7 && r-1>=0 && c-1<=7 && c-1>=0){
+            let div1=data(r-1, c-1);
+            if(div1.innerHTML.length!==0){
+                pawncall=false;
+                let flag1=datalistner(div1, coloro);
+                if(flag1[0]===false){
+                    nums.push(flag1[1]);
+                }
+                pawncall=true;
+            }
+        }
+        if(r-1<=7 && r-1>=0 && c+1<=7 && c+1>=0){
+            let div2=data(r-1, c+1);
+            if(div2.innerHTML.length!==0){
+                pawncall=false;
+                let flag2=datalistner(div2, coloro);
+                if(flag2[0]===false){
+                    nums.push(flag2[1]);
+                }
+                pawncall=true;
+            }
+        }
+    }
+    else{
+        //-y just above
+        let div=data(r+1,c);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===true){
+            nums.push(flag[1]);
+        }
+        //hybrid kill function
+        if(r+1<=7 && r+1>=0 && c-1<=7 && c-1>=0){
+            let div1=data(r+1, c-1);
+            if(div1.innerHTML.length!==0){
+                pawncall=false;
+                let flag1=datalistner(div1, coloro);
+                if(flag1[0]===false){
+                    nums.push(flag1[1]);
+                }
+                pawncall=true;
+            }
+        }
+        if(r+1<=7 && r+1>=0 && c+1<=7 && c+1>=0){
+            let div2=data(r+1, c+1);
+            if(div2.innerHTML.length!==0){
+                pawncall=false;
+                let flag2=datalistner(div2, coloro);
+                if(flag2[0]===false){
+                    nums.push(flag2[1]);
+                }
+                pawncall=true;
+            }
+        }
+    }
+    pawncall=false;
+    fr=String(r); fc=String(c); fnums=nums;
+}
+
+function king(string, coloro){
+    let nums=[];
+    let r= parseInt(string[0]), c=parseInt(string[1]);
+     //for +y
+     for(let i=r-1; i>=0; i--){
+        let div=data(i,c);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+            break;
+        }
+        else{
+        nums.push(flag[1]);
+        }
+        break;
+    }
+    // for -y
+    for(let i=r+1; i<8; i++){
+        let div=data(i,c);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+            break;
+        }
+        else{
+            nums.push(flag[1]);
+        }
+        break;
+    }
+    // //for +x
+    for(let i=c+1; i<8; i++){
+        let div=data(r,i);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+            break;
+        }
+        else{
+            nums.push(flag[1]);
+        }
+        break;
+    }
+    // //for -x
+    for(let i=c-1; i>=0; i--){
+        let div=data(r,i);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+            }
+            break;
+        }
+        else{
+            nums.push(flag[1]);
+        }
+        break;
+    }
+     //for +x,+y
+     for(let i=r-1, j=c+1; i>=0 && i<=7 && j<=7 && j>=0 ; i--, j++){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+            else{
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+        break;
+    }
+    //for -x, +y
+    for(let i=r-1, j=c-1; i>=0 && i<=7 && j<=7 && j>=0 ; i--, j--){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+            else{
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+        break;
+    }
+    //for -x -y
+    for(let i=r+1, j=c-1; i>=0 && i<=7 && j<=7 && j>=0 ; i++, j--){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+            else{
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+        break;
+    }
+    //for +x -y
+    for(let i=r+1, j=c+1; i>=0 && i<=7 && j<=7 && j>=0 ; i++, j++){
+        let div=data(i,j);
+        let flag=datalistner(div, coloro);
+        if(flag[0]===false){
+            if(flag[1].classList[1]==="kill"){
+                nums.push(flag[1]);
+                break;
+            }
+            else{
+                break;
+            }
+        }
+        else{
+        nums.push(flag[1]);
+        }
+        break;
+    }
+    fr=String(r); fc=String(c); fnums=nums;
 }
 
 const Click=(e)=>{
@@ -426,24 +685,40 @@ const Click=(e)=>{
                 }
             }
             else if(e.target.parentNode.classList[1]==="kill"){ //means user has initiated the kill move
-                console.log("kill move");
                 e.target.parentNode.innerHTML=`${inner}`;
                 document.getElementById(`${id}`).innerHTML=``;
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
                 }
+                // if(pawncontrol===true){
+                //     let haha=data(parseInt(fr)-(parseInt(fr)-parseInt(e.target.id[0])),parseInt(fc));   //extension for pawn function
+                //     if(haha.childNodes[0].id==="first"){
+                //         haha.childNodes[0].id="second";
+                //     }
+                //     pawncontrol=false;
+                // }
+
                 if(turn==="w") turn="b";
                 else turn="w";
             }
         }
         else{  //handeling all cases when the user has clicked on a div having no image it may be in fnums or may not be
             // console.log(e.target);
-            if(fnums.includes(e.target)){ //case when user wishes to migrate
+            if(fnums.includes(e.target)){ //case when user wishes to migrate    
                 e.target.innerHTML=`${inner}`;
                 document.getElementById(`${id}`).innerHTML=``;
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
                 }
+
+                // if(pawncontrol===true){
+                //     let haha=data(parseInt(fr)-(parseInt(fr)-parseInt(e.target.id[0])),parseInt(fc));   //extension for pawn function
+                //     if(haha.childNodes[0].id==="first"){
+                //         haha.childNodes[0].id="second";
+                //     }
+                //     pawncontrol=false;
+                // }
+
                 if(turn==="w") turn="b";
                 else turn="w";
             } 
