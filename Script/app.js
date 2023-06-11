@@ -60,32 +60,32 @@ cells[61].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt="">
 cells[62].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
 cells[44].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
 
-//general behaviour for all functions
-function behaviour(r,c, nums){
-    const id=r+c;
-    const inner=document.getElementById(`${id}`).innerHTML;
-    const container=document.getElementsByClassName("container");
-    container[0].addEventListener('click',(e)=>{
-        if(e.target.parentNode.id===id){
-            behaviour(r,c);
-            return;
-        }
-        // console.log(e.target);
-        // console.log(nums);
-        if(nums.includes(e.target)) {
-            e.target.innerHTML=`${inner}`;
-            document.getElementById(`${id}`).innerHTML=``;
-            for(let i=0; i<nums.length; i++){
-                nums[i].classList.remove("kill", "active");
-            }
-        } 
-        else{
-            for(let i=0; i<nums.length; i++){
-                nums[i].classList.remove("kill", "active");
-            }
-        }
-    });
-}
+let flagg=true;
+// function behaviour(r,c, nums){
+//     const id=r+c;
+//     const inner=document.getElementById(`${id}`).innerHTML;
+//     const container=document.getElementsByClassName("container");
+//     container[0].addEventListener('click',(e)=>{
+//         if(e.target.parentNode.id===id){
+//             behaviour(r,c);
+//             return;
+//         }
+//         // console.log(e.target);
+//         // console.log(nums);
+//         if(nums.includes(e.target)) {
+//             e.target.innerHTML=`${inner}`;
+//             document.getElementById(`${id}`).innerHTML=``;
+//             for(let i=0; i<nums.length; i++){
+//                 nums[i].classList.remove("kill", "active");
+//             }
+//         } 
+//         else{
+//             for(let i=0; i<nums.length; i++){
+//                 nums[i].classList.remove("kill", "active");
+//             }
+//         }
+//     });
+// }
 //class and logic add function 
 function datalistner(div, coloro){
     if(div.innerHTML.length!==0){                               //%change this to 0 later
@@ -122,7 +122,8 @@ function data(r,c){
 }
 
 
-//defining behaviours
+let fr=null, fc=null, fnums=[];
+//defining functions for each key
 function rook(string,coloro){
     let nums=[];
     let r= parseInt(string[0]), c=parseInt(string[1]);
@@ -182,17 +183,16 @@ function rook(string,coloro){
             nums.push(flag[1]);
         }
     }
-    behaviour(String(r),String(c), nums);
+    fr=String(r); fc=String(c); fnums=nums;
 }
 
 
 
 
-
-
-
-for(let i=0; i<cells.length; i++){
-    cells[i].addEventListener('click',(e)=>{
+const Click=(e)=>{
+    //handeling the first click event ie the user selects a key to show possible outcomes
+    if(flagg===true){
+        flagg=false;
         let temp=e.target.classList;
         let color=temp[1][temp[1].length-1]
         let key=temp[1].slice(0, temp[1].length-2);
@@ -201,34 +201,61 @@ for(let i=0; i<cells.length; i++){
         }
         // console.log(color);
         // console.log(key);
-        if((color==='b' && turn==="white") || (color==='w' && turn==="black")){
-            alert("it's not your turn :)");
-            return;
-        }
-
-        if(key==="rook"){
-            // console.log(e.target.parentNode.id);
+        if(key==="rook"){        
             rook(e.target.parentNode.id, color);
         }
         else if(key==="knight"){
-            // console.log(e.target.parentNode.id);
             knight(e.target.parentNode.id, color);
         }
         else if(key==="bishop"){
-            // console.log(e.target.parentNode.id);
             bishop(e.target.parentNode.id, color);
         }
         else if(key==="king"){
-            // console.log(e.target.parentNode.id);
             king(e.target.parentNode.id, color);
         }
         else if(key==="queen"){
-            // console.log(e.target.parentNode.id);
             queen(e.target.parentNode.id, color);
         }
         else if(key==="pawn"){
-            // console.log(e.target.parentNode.id);
             pawn(e.target.parentNode.id, color);
         }
-    })
+    }
+    //handeling the other event when the user has all the possibilities highlighted and now wants to make move
+    else{
+
+        flagg=true;
+
+        const id=fr+fc;
+        const inner=document.getElementById(`${id}`).innerHTML;
+        if(e.target.parentNode.id!==""){ //handeling all the cases when the user clicked on a div haveing image
+            if(e.target.parentNode.id===id || !fnums.includes(e.target.parentNode)){ //means the image is either key itself or the user clicked on another IMAGE not being heighlighted
+                for(let i=0; i<fnums.length; i++){
+                    fnums[i].classList.remove("kill", "active");
+                }
+            }
+            else if(e.target.parentNode.classList[1]==="kill"){ //means user has initiated the kill move
+                //it the kill key so make a kill move
+                console.log("kill move");
+            }
+        }
+        else{  //handeling all cases when the user has clicked on a div having no image it may be in fnums or may not be
+            console.log(e.target);
+            // if(nums.includes(e.target)) {
+            //     e.target.innerHTML=`${inner}`;
+            //     document.getElementById(`${id}`).innerHTML=``;
+            //     for(let i=0; i<nums.length; i++){
+            //         nums[i].classList.remove("kill", "active");
+            //     }
+            // } 
+            // else{
+            //     for(let i=0; i<nums.length; i++){
+            //         nums[i].classList.remove("kill", "active");
+            //     }
+            // }
+        }
+    }
+}
+//adding the first and global event listner to the whole chess board
+for(let i=0; i<cells.length; i++){
+    cells[i].addEventListener("click",Click)
 }
