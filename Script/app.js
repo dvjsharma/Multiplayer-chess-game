@@ -42,9 +42,9 @@ const images={
 }
 //to set-up all the keys to initial values
 function InitialBuild(){
-    cells[33].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
+    cells[34].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
     cells[1].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
-    cells[2].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
+    cells[44].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
     cells[3].innerHTML=`<img class="img queen_b"src="img-src/queen_b.png" alt=""></img>`;
     cells[4].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
     cells[5].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
@@ -59,14 +59,14 @@ function InitialBuild(){
         cells[i].innerHTML=`<img class="img pawn_w"src="img-src/pawn_w.png" alt=""></img>`;
     }
 
-    cells[34].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
+    cells[56].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
     cells[57].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
-    cells[39].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
+    cells[58].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
     cells[59].innerHTML=`<img class="img queen_w"src="img-src/queen_w.png" alt=""></img>`;
     cells[60].innerHTML=`<img class="img king_w"src="img-src/king_w.png" alt=""></img>`;
     cells[61].innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
     cells[62].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
-    cells[44].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
+    cells[63].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
 }
 //class and logic add function 
 function datalistner(div, coloro){
@@ -122,7 +122,7 @@ function data(r,c){
 
 
 //defining functions for each key
-function rook(string,coloro){
+function rook(string,coloro,f){
     let nums=[];
     let r= parseInt(string[0]), c=parseInt(string[1]);
     //for +y
@@ -181,7 +181,15 @@ function rook(string,coloro){
             nums.push(flag[1]);
         }
     }
+    if(f===false){
     fr=String(r); fc=String(c); fnums=nums;
+    }
+    else{
+        fr=String(r); fc=String(c);
+        for(let p=0; p<nums.length; p++){
+            fnums.push(nums[p]);
+        }
+    }
 }
 
 function knight(string,coloro){
@@ -295,7 +303,7 @@ function knight(string,coloro){
     fr=String(r); fc=String(c); fnums=nums;
 }
 
-function bishop(string, coloro){
+function bishop(string, coloro,f){
     let nums=[];
     let r= parseInt(string[0]), c=parseInt(string[1]);
     //for +x,+y
@@ -354,9 +362,20 @@ function bishop(string, coloro){
         nums.push(flag[1]);
         }
     }
-    fr=String(r); fc=String(c); fnums=nums;
+    if(f===false){
+        fr=String(r); fc=String(c); fnums=nums;
+        }
+    else{
+        fr=String(r); fc=String(c);
+        for(let p=0; p<nums.length; p++){
+            fnums.push(nums[p]);
+        }
+    }
 }
-
+function queen(string, coloro){
+    rook(string, coloro, true);
+    bishop(string, coloro, true);
+}
 
 const Click=(e)=>{
     //handeling the first click event ie the user selects a key to show possible outcomes
@@ -375,13 +394,13 @@ const Click=(e)=>{
         // console.log(color);
         // console.log(key);
         if(key==="rook"){        
-            rook(e.target.parentNode.id, color);
+            rook(e.target.parentNode.id, color,false);
         }
         else if(key==="knight"){
             knight(e.target.parentNode.id, color);
         }
         else if(key==="bishop"){
-            bishop(e.target.parentNode.id, color);
+            bishop(e.target.parentNode.id, color,false);
         }
         else if(key==="king"){
             king(e.target.parentNode.id, color);
