@@ -55,10 +55,10 @@ function InitialBuild(){
 
 
     for(let i=8; i<16; i++){
-        cells[i].innerHTML=`<img class="img pawn_b" id="first" src="img-src/pawn_b.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_b first" src="img-src/pawn_b.png" alt=""></img>`;
     }
     for(let i=48; i<56; i++){
-        cells[i].innerHTML=`<img class="img pawn_w" id="first" src="img-src/pawn_w.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_w first" src="img-src/pawn_w.png" alt=""></img>`;
     }
 
     cells[56].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
@@ -119,30 +119,12 @@ function datalistner(div, coloro){
         return [true, div];
     }
 }
-//color and key function
+
+//global for ease functions
 function data(r,c){
     let Div=document.getElementById(`${r}${c}`);
     return Div;
 }
-// //optimisation for knight
-// function knightcall(rc,cc,coloro){
-//     let nums=[];
-//     if(rc>=0 && rc<=7 && cc<=7 && cc>=0){
-//         let div=data(rc,cc);
-//         let flag=datalistner(div, coloro);
-//         if(flag[0]===false){
-//             if(flag[1].classList[1]==="kill"){
-//                 nums.push(flag[1]);
-//             }
-//         }
-//         else{
-//         nums.push(flag[1]);
-//         }
-//     }
-//     return nums;
-// }
-
-
 //defining functions for each key
 function rook(string,coloro,f){
     let nums=[];
@@ -418,26 +400,32 @@ function pawn(string, coloro){
     let r= parseInt(string[0]), c=parseInt(string[1]);
     if(coloro==="w"){
         //+y just above
-        let div=data(r-1,c);
-        let flag=datalistner(div, coloro);
-        if(flag[0]===true){
-            nums.push(flag[1]);
-
-            //taking care of the first move
-            // pawncontrol=true;
-            // let haha=data(r,c);
-            // if(haha.childNodes[0].id==="first"){
-            //     if(r-2<=7 && r-2>=0 && c<=7 && c>=0){
-            //         let div4=data(r-2,c);
-            //         pawncall=false;
-            //         let flag4=datalistner(div4, coloro);
-            //             if(flag4[0]===true){
-            //                 nums.push(flag4[1]);
-            //             }
-            //         pawncall=true;
-                    
-            //     }
-            // }
+        if(pawncontrol===false){
+            let div=data(r-1,c);
+            let flag=datalistner(div, coloro);
+            if(flag[0]===true){
+                nums.push(flag[1]);
+            }
+        }
+        else if(pawncontrol===true){
+            let ct=0;
+            for(let i=r-1; i>=0; i--){
+                ct++;
+                let div=data(i,c);
+                let flag=datalistner(div, coloro);
+                if(flag[0]===false){
+                    if(flag[1].classList[1]==="kill"){
+                        flag[1].classList.remove("kill");
+                    }
+                    break;
+                }
+                else{
+                nums.push(flag[1]);
+                }
+                if(ct==2){
+                    break;
+                }
+            }
         }
         //hybrid kill function
         if(r-1<=7 && r-1>=0 && c-1<=7 && c-1>=0){
@@ -467,8 +455,30 @@ function pawn(string, coloro){
         //-y just above
         let div=data(r+1,c);
         let flag=datalistner(div, coloro);
-        if(flag[0]===true){
-            nums.push(flag[1]);
+        if(pawncontrol===false){
+            if(flag[0]===true){
+                nums.push(flag[1]);
+            }
+        }
+        else if(pawncontrol===true){
+            let ct=0;
+            for(let i=r+1; i<=7; i++){
+                ct++;
+                let div=data(i,c);
+                let flag=datalistner(div, coloro);
+                if(flag[0]===false){
+                    if(flag[1].classList[1]==="kill"){
+                        flag[1].classList.remove("kill");
+                    }
+                    break;
+                }
+                else{
+                nums.push(flag[1]);
+                }
+                if(ct==2){
+                    break;
+                }
+            }
         }
         //hybrid kill function
         if(r+1<=7 && r+1>=0 && c-1<=7 && c-1>=0){
@@ -668,6 +678,9 @@ const Click=(e)=>{
             queen(e.target.parentNode.id, color);
         }
         else if(key==="pawn"){
+            if(e.target.classList[2]==="first"){
+                pawncontrol=true;
+            }
             pawn(e.target.parentNode.id, color);
         }
     }
@@ -678,7 +691,7 @@ const Click=(e)=>{
         const id=fr+fc;
         const inner=document.getElementById(`${id}`).innerHTML;
 
-        if(e.target.parentNode.id!==""){ //handeling all the cases when the user clicked on a div haveing image
+        if(e.target.parentNode.id!==""){ //handeling all the cases when the user clicked on a div having image
             if(e.target.parentNode.id===id || !fnums.includes(e.target.parentNode)){ //means the image is either key itself or the user clicked on another IMAGE not being heighlighted
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
@@ -690,13 +703,13 @@ const Click=(e)=>{
                 for(let i=0; i<fnums.length; i++){
                     fnums[i].classList.remove("kill", "active");
                 }
-                // if(pawncontrol===true){
-                //     let haha=data(parseInt(fr)-(parseInt(fr)-parseInt(e.target.id[0])),parseInt(fc));   //extension for pawn function
-                //     if(haha.childNodes[0].id==="first"){
-                //         haha.childNodes[0].id="second";
-                //     }
-                //     pawncontrol=false;
-                // }
+                if(pawncontrol===true){  //pawn control case
+                    console.log("im in");
+                    console.log(e.target.children[0].classList);
+                    // e.target.children[0].classList.remove("first");
+                    // e.target.children[0].classList.add("second");
+                    pawncontrol=false;
+                }
 
                 if(turn==="w") turn="b";
                 else turn="w";
@@ -711,13 +724,11 @@ const Click=(e)=>{
                     fnums[i].classList.remove("kill", "active");
                 }
 
-                // if(pawncontrol===true){
-                //     let haha=data(parseInt(fr)-(parseInt(fr)-parseInt(e.target.id[0])),parseInt(fc));   //extension for pawn function
-                //     if(haha.childNodes[0].id==="first"){
-                //         haha.childNodes[0].id="second";
-                //     }
-                //     pawncontrol=false;
-                // }
+                if(pawncontrol===true){  //pawn control case
+                    e.target.children[0].classList.remove("first");
+                    e.target.children[0].classList.add("second");
+                    pawncontrol=false;
+                }
 
                 if(turn==="w") turn="b";
                 else turn="w";
