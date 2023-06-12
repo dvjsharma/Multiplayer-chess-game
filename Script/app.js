@@ -771,7 +771,13 @@ const Click=(e)=>{
                 }
             }
             else if(e.target.parentNode.classList[1]==="kill"){ //means user has initiated the kill move
-        
+                
+                //updating the user interface
+                let para=document.getElementById(e.target.classList[1]);
+                let i=parseInt(para.innerHTML);
+                i++;
+                document.getElementById(e.target.classList[1]).innerHTML=`${String(i)}`;
+
                 e.target.parentNode.innerHTML=`${inner}`;
                 document.getElementById(`${id}`).innerHTML=``;
                 for(let i=0; i<fnums.length; i++){
