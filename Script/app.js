@@ -55,12 +55,12 @@ function InitialBuild(){
 
     let p=0;
     for(let i=8; i<16; i++){
-        cells[i].innerHTML=`<img class="img pawn_b first" id="1${p}" src="img-src/pawn_b.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_b first" id="8${p}" src="img-src/pawn_b.png" alt=""></img>`;
         p++
     }
     p=0;
     for(let i=48; i<56; i++){
-        cells[i].innerHTML=`<img class="img pawn_w first" id="6${p}" src="img-src/pawn_w.png" alt=""></img>`;
+        cells[i].innerHTML=`<img class="img pawn_w first" id="9${p}" src="img-src/pawn_w.png" alt=""></img>`;
         p++;
     }
 
@@ -712,13 +712,13 @@ const Click=(e)=>{
                     let pb=document.getElementsByClassName("pawn_b");
                     let pw=document.getElementsByClassName("pawn_w");
                     for(let i=0; i<pb.length; i++){
-                        if(pb[i].id===id){
+                        if(pb[i].id[1]===id[1]){
                            pb[i].classList.remove("first");
                            pb[i].classList.add("second");
                         }
                     }
                     for(let i=0; i<pw.length; i++){
-                        if(pw[i].id===id){
+                        if(pw[i].id[1]===id[1]){
                            pw[i].classList.remove("first");
                            pw[i].classList.add("second");
                         }
@@ -740,8 +740,21 @@ const Click=(e)=>{
                 }
 
                 if(pawncontrol===true){  //pawn control case
-                    e.target.children[0].classList.remove("first");
-                    e.target.children[0].classList.add("second");
+                    console.log("im in");
+                    let pb=document.getElementsByClassName("pawn_b");
+                    let pw=document.getElementsByClassName("pawn_w");
+                    for(let i=0; i<pb.length; i++){
+                        if(pb[i].id[1]===id[1]){
+                           pb[i].classList.remove("first");
+                           pb[i].classList.add("second");
+                        }
+                    }
+                    for(let i=0; i<pw.length; i++){
+                        if(pw[i].id[1]===id[1]){
+                           pw[i].classList.remove("first");
+                           pw[i].classList.add("second");
+                        }
+                    }
                     pawncontrol=false;
                 }
 
