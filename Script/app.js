@@ -649,6 +649,42 @@ function king(string, coloro){
     fr=String(r); fc=String(c); fnums=nums;
 }
 
+function pawnPromotion(){
+    let pb = document.getElementsByClassName("pawn_b");
+    for (let i = 0; i < pb.length; i++) {
+        if (pb[i].parentElement.id[0] === "7") {
+            //pawn promotion!
+            let ques = prompt("your pawn is eligible for promotion! please type one of the following to upgrade - Queen, Bishop, Knight, Rook");
+            if(ques==="Queen") pb[i].parentElement.innerHTML=`<img class="img queen_b"src="img-src/queen_b.png" alt=""></img>`;
+            else if(ques==="Knight") pb[i].parentElement.innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
+            else if(ques==="Bishop") pb[i].parentElement.innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
+            else if(ques==="Rook") pb[i].parentElement.innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
+            else{
+               alert("please add valid value :)");
+               pawnPromotion();     
+            }
+            break;
+        }
+    }
+    let pw = document.getElementsByClassName("pawn_w");
+    for (let i = 0; i < pw.length; i++) {
+        if (pw[i].parentElement.id[0] === "0") {
+             //pawn promotion!
+            let ques = prompt("your pawn is eligible for promotion! please type one of the following to upgrade - Queen, Bishop, Knight, Rook");
+            if(ques==="Queen") pw[i].parentElement.innerHTML=`<img class="img queen_w"src="img-src/queen_w.png" alt=""></img>`;
+            else if(ques==="Knight") pw[i].parentElement.innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
+            else if(ques==="Bishop") pw[i].parentElement.innerHTML=`<img class="img bishop_w"src="img-src/bishop_w.png" alt=""></img>`;
+            else if(ques==="Rook") pw[i].parentElement.innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
+            else{
+                alert("please add valid value :)");
+               pawnPromotion(); 
+            }
+            break;
+        }
+    }
+
+}
+
 const Click=(e)=>{
     //handeling the first click event ie the user selects a key to show possible outcomes
     if(flagg===true){
@@ -708,7 +744,6 @@ const Click=(e)=>{
                 }
 
                 if(pawncontrol===true){  //pawn control case
-                    console.log("im in");
                     let pb=document.getElementsByClassName("pawn_b");
                     let pw=document.getElementsByClassName("pawn_w");
                     for(let i=0; i<pb.length; i++){
@@ -725,7 +760,8 @@ const Click=(e)=>{
                     }
                     pawncontrol=false;
                 }
-
+                pawnPromotion();
+                //swap turns
                 if(turn==="w") turn="b";
                 else turn="w";
             }
@@ -740,7 +776,6 @@ const Click=(e)=>{
                 }
 
                 if(pawncontrol===true){  //pawn control case
-                    console.log("im in");
                     let pb=document.getElementsByClassName("pawn_b");
                     let pw=document.getElementsByClassName("pawn_w");
                     for(let i=0; i<pb.length; i++){
@@ -757,7 +792,7 @@ const Click=(e)=>{
                     }
                     pawncontrol=false;
                 }
-
+                pawnPromotion();
                 if(turn==="w") turn="b";
                 else turn="w";
             } 
