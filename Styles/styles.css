@@ -3,6 +3,7 @@
     --color2: #ffce9e;
 }
 body{
+    background-image: url(/img-src/background.jpeg);
     display: flex;
     justify-content: center;
 }
