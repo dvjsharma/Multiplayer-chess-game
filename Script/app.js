@@ -1,6 +1,7 @@
 //*============================Welcome to the multiplater-chess-game script file===================
 
 //you can navigate through various sections to understand what they do
+//note- setup build functions are called at the end of code 
 
 //used to color the board (not invoked directly)
 ColorCodes={
@@ -18,6 +19,64 @@ let pawncontrol=false;
 let user1=null, user2=null;
 let i1=document.getElementById("whoseturn_1");
 let i2=document.getElementById("whoseturn_2");
+key1=true;
+key2=false;
+
+//timer functions
+function TimerU1(){
+        if(key1===true){
+            let currtime=document.getElementById("time_1").innerHTML;
+            let[minutes,seconds]=currtime.split(":");
+            minutes = parseInt(minutes, 10);
+            seconds = parseInt(seconds, 10);
+            if(seconds>0){
+                seconds--;
+            } 
+            else{
+                if(minutes>0){
+                    minutes--;
+                    seconds = 59;
+                }
+                else{
+                  clearInterval(timer1);
+                  alert(`Time up for ${user1}, ${user2} wins!`);
+                  location.reload();
+                  return;
+                }
+            }
+            minutes = minutes.toString().padStart(2, "0");
+            seconds = seconds.toString().padStart(2, "0");
+            let time1 = `${minutes}:${seconds}`;
+            document.getElementById("time_1").innerHTML=`${time1}`;
+        }
+}
+function TimerU2(){
+        if(key2===true){
+            let currtime=document.getElementById("time_2").innerHTML;
+            let[minutes,seconds]=currtime.split(":");
+            minutes = parseInt(minutes, 10);
+            seconds = parseInt(seconds, 10);
+            if(seconds>0){
+                seconds--;
+            } 
+            else{
+                if(minutes>0){
+                    minutes--;
+                    seconds = 59;
+                }
+                else{
+                    clearInterval(timer2);
+                    alert(`Time up for ${user2}, ${user1} wins!`);
+                    location.reload();
+                    return;
+                }
+            }
+            minutes = minutes.toString().padStart(2, "0");
+            seconds = seconds.toString().padStart(2, "0");
+            let time2 = `${minutes}:${seconds}`;
+            document.getElementById("time_2").innerHTML=`${time2}`;
+        }
+}
 
 //to add names to the document and initial white turn
 function NameFunc(){
@@ -29,6 +88,7 @@ function NameFunc(){
         upd[1].innerHTML=`${user2}`;
         let splitt=user1.split(" ");
         i1.innerHTML=`${splitt[0]}'s turn`;
+        // key1=true;
     }
     else{
         alert("smarty uhm? space as name?")
@@ -809,12 +869,16 @@ const Click=(e)=>{
                     let splitt=user2.split(" ");
                     i2.innerHTML=`${splitt[0]}'s turn`;
                     turn="b";
+                    key1=false;
+                    key2=true;
                 }
                 else{
                     i2.innerHTML=``;
                     let splitt=user1.split(" ");
                     i1.innerHTML=`${splitt[0]}'s turn`;
                     turn="w";
+                    key1=true;
+                    key2=false;
                 } 
                 let win=checkmate(turn);
                 if(win===true){
@@ -873,12 +937,16 @@ const Click=(e)=>{
                     let splitt=user2.split(" ");
                     i2.innerHTML=`${splitt[0]}'s turn`;
                     turn="b";
+                    key1=false;
+                    key2=true;
                 }
                 else{
                     i2.innerHTML=``;
                     let splitt=user1.split(" ");
                     i1.innerHTML=`${splitt[0]}'s turn`;
                     turn="w";
+                    key1=true;
+                    key2=false;
                 } 
             } 
             else{ //when user clicked on a div not inside nums and want to revert
@@ -893,7 +961,9 @@ const Click=(e)=>{
 // calling all setup functions on reload/restart
 ColorSetup(); //...(1)
 InitialBuild(); //...(2)
-NameFunc();//...(3)
+const timer1=setInterval(TimerU1, 1000); //...(3)
+const timer2=setInterval(TimerU2, 1000); //...(4)
+NameFunc();//...(5)
 
 //adding the first and global event listner to the whole chess board
 for(let i=0; i<cells.length; i++){
