@@ -1,9 +1,14 @@
+//*============================Welcome to the multiplater-chess-game script file===================
+
+//you can navigate through various sections to understand what they do
+
+//used to color the board (not invoked directly)
 ColorCodes={
     light: "#ffce9e",
     dark: "#d18b47",
 };
 
-//initial global calls
+//global calls used in multiple functions to define behaviour (not invoked dircetly)
 let turn="w";
 let cells=document.getElementsByClassName("cell");
 let flagg=true;
@@ -11,9 +16,8 @@ let fr=null, fc=null, fnums=[];
 let pawncall=false;
 let pawncontrol=false;
 
-//for setting the alternate chessboard color schema
+//for setting the alternate chessboard color schema (invoked directly as soon as the website loads)
 function ColorSetup(){
-    //  to add alternate colors to the chess board
     let c=0;
     let flag=true;
     for(let i=0; i<cells.length; i++){
@@ -33,7 +37,7 @@ function ColorSetup(){
         }
     }  
 }
-//obj to access the images anytime
+//obj to access the images anytime (not invoked directly, just to save me form typing it again :) )
 const images={
     rook: {f:"rook_b",s:"rook_w"},
     knight: {f:"knight_b",s:"knight_w"},
@@ -42,18 +46,20 @@ const images={
     king: {f:"king_b",s:"king_w"},
     pawn: {f:"pawn_b",s:"pawn_w"},
 }
-//to set-up all the keys to initial values
+
+//to set-up all the keys to initial values when the game loads (invoked directly after ColorSetup)
 function InitialBuild(){
-    cells[34].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
+    cells[0].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
     cells[1].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
-    cells[44].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
+    cells[2].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
     cells[3].innerHTML=`<img class="img queen_b"src="img-src/queen_b.png" alt=""></img>`;
-    cells[24].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
+    cells[4].innerHTML=`<img class="img king_b"src="img-src/king_b.png" alt=""></img>`;
     cells[5].innerHTML=`<img class="img bishop_b"src="img-src/bishop_b.png" alt=""></img>`;
     cells[6].innerHTML=`<img class="img knight_b"src="img-src/knight_b.png" alt=""></img>`;
     cells[7].innerHTML=`<img class="img rook_b"src="img-src/rook_b.png" alt=""></img>`;
 
     let p=0;
+    //random id given to add pawn control functionality and handle various pawn cases
     for(let i=8; i<16; i++){
         cells[i].innerHTML=`<img class="img pawn_b first" id="8${p}" src="img-src/pawn_b.png" alt=""></img>`;
         p++
@@ -73,7 +79,7 @@ function InitialBuild(){
     cells[62].innerHTML=`<img class="img knight_w"src="img-src/knight_w.png" alt=""></img>`;
     cells[63].innerHTML=`<img class="img rook_w"src="img-src/rook_w.png" alt=""></img>`;
 }
-//class and logic add function 
+//datalistner function which gets a possible moves array form key calls and decides according to color weather to initialize it as a kill div or migrate div (invoked indirectly)
 function datalistner(div, coloro){
     if(div.innerHTML.length!==0){                               //%change this to 0 later
         let temp=div.children[0].classList[1].length
@@ -123,12 +129,14 @@ function datalistner(div, coloro){
     }
 }
 
-//global for ease functions
+//data function which return div of id rc (global and invoked indirectly)
 function data(r,c){
     let Div=document.getElementById(`${r}${c}`);
     return Div;
 }
 //defining functions for each key
+
+//scope of improvement- insead of defining each axis behaviour in all functions, a global function can be made defining behaviour for axes and can be used repatidely 
 function rook(string,coloro,f){
     let nums=[];
     let r= parseInt(string[0]), c=parseInt(string[1]);
@@ -649,6 +657,7 @@ function king(string, coloro){
     fr=String(r); fc=String(c); fnums=nums;
 }
 
+//function to handle pawn promotion when the pawn reached last respective div
 function pawnPromotion(){
     let pb = document.getElementsByClassName("pawn_b");
     for (let i = 0; i < pb.length; i++) {
@@ -685,6 +694,13 @@ function pawnPromotion(){
 
 }
 
+//function to handle win situations
+function checkmate(finalcolor){
+    let KingImg = document.querySelector(`.img.king_${finalcolor}`);
+    return KingImg===null; 
+}
+
+//A global event listner which moniters 2 types of clicks, firt one invokes various key functions and second click takes kill or migrate decision on the basis of classes activated by datalistner function
 const Click=(e)=>{
     //handeling the first click event ie the user selects a key to show possible outcomes
     if(flagg===true){
@@ -762,8 +778,32 @@ const Click=(e)=>{
                 }
                 pawnPromotion();
                 //swap turns
+                let initurn=turn;
                 if(turn==="w") turn="b";
-                else turn="w";
+                else turn="w"; 
+                let win=checkmate(turn);
+                if(win===true){
+                    if(initurn==="w"){
+                        let val=prompt(`Game over! White wins, another game? type yes or no :)`);
+                        if(val==="yes"){
+                            location.reload();
+                        }
+                        else{
+                            alert("Thanks for playing! have a good day");
+                            location.reload();
+                        }
+                    }
+                    else{
+                        let val=prompt(`Game over! Black wins, another game? type yes or no :)`);
+                        if(val==="yes"){
+                            location.reload();
+                        }
+                        else{
+                            alert("Thanks for playing! have a good day");
+                            location.reload();
+                        }
+                    }
+                } 
             }
         }
         else{  //handeling all cases when the user has clicked on a div having no image it may be in fnums or may not be
@@ -794,7 +834,7 @@ const Click=(e)=>{
                 }
                 pawnPromotion();
                 if(turn==="w") turn="b";
-                else turn="w";
+                else turn="w"; 
             } 
             else{ //when user clicked on a div not inside nums and want to revert
                 for(let i=0; i<fnums.length; i++){
@@ -804,9 +844,10 @@ const Click=(e)=>{
         }
     }
 }
+
 // calling all setup functions on reload/restart
-ColorSetup();
-InitialBuild();
+ColorSetup(); //...(1)
+InitialBuild(); //...(2)
 
 //adding the first and global event listner to the whole chess board
 for(let i=0; i<cells.length; i++){
