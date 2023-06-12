@@ -16,8 +16,10 @@ let fr=null, fc=null, fnums=[];
 let pawncall=false;
 let pawncontrol=false;
 let user1=null, user2=null;
+let i1=document.getElementById("whoseturn_1");
+let i2=document.getElementById("whoseturn_2");
 
-//to add names to the document
+//to add names to the document and initial white turn
 function NameFunc(){
     user1=prompt("Enter your name if you wish to play as White");
     user2=prompt("Enter your name if you wish to play as Black");
@@ -25,6 +27,8 @@ function NameFunc(){
         let upd=document.getElementsByClassName("name");
         upd[0].innerHTML=`${user1}`;
         upd[1].innerHTML=`${user2}`;
+        let splitt=user1.split(" ");
+        i1.innerHTML=`${splitt[0]}'s turn`;
     }
     else{
         alert("smarty uhm? space as name?")
@@ -792,10 +796,20 @@ const Click=(e)=>{
                     pawncontrol=false;
                 }
                 pawnPromotion();
-                //swap turns
+                //swap turns and names functionality
                 let initurn=turn;
-                if(turn==="w") turn="b";
-                else turn="w"; 
+                if(turn==="w"){
+                    i1.innerHTML=``;
+                    let splitt=user2.split(" ");
+                    i2.innerHTML=`${splitt[0]}'s turn`;
+                    turn="b";
+                }
+                else{
+                    i2.innerHTML=``;
+                    let splitt=user1.split(" ");
+                    i1.innerHTML=`${splitt[0]}'s turn`;
+                    turn="w";
+                } 
                 let win=checkmate(turn);
                 if(win===true){
                     if(initurn==="w"){
@@ -848,8 +862,18 @@ const Click=(e)=>{
                     pawncontrol=false;
                 }
                 pawnPromotion();
-                if(turn==="w") turn="b";
-                else turn="w"; 
+                if(turn==="w"){
+                    i1.innerHTML=``;
+                    let splitt=user2.split(" ");
+                    i2.innerHTML=`${splitt[0]}'s turn`;
+                    turn="b";
+                }
+                else{
+                    i2.innerHTML=``;
+                    let splitt=user1.split(" ");
+                    i1.innerHTML=`${splitt[0]}'s turn`;
+                    turn="w";
+                } 
             } 
             else{ //when user clicked on a div not inside nums and want to revert
                 for(let i=0; i<fnums.length; i++){
@@ -863,7 +887,7 @@ const Click=(e)=>{
 // calling all setup functions on reload/restart
 ColorSetup(); //...(1)
 InitialBuild(); //...(2)
-// NameFunc();//...(3)
+NameFunc();//...(3)
 
 //adding the first and global event listner to the whole chess board
 for(let i=0; i<cells.length; i++){
