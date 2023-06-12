@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
 :root{
     --color1: #d18b47;
     --color2: #ffce9e;
@@ -6,6 +7,10 @@ body{
     background-image: url(/img-src/background.jpeg);
     display: flex;
     justify-content: center;
+}
+p{
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 .row{
     display:flex;
@@ -19,7 +24,7 @@ body{
 }
 .container{
     height: 100vh;
-    width: 100vh;
+    width: 50%;
 }
 .img{
     overflow: auto;
@@ -32,3 +37,114 @@ body{
     border: 4px solid red;
     box-sizing: border-box;
 }
+.header{
+    height: 20%;
+    display: flex;
+}
+.user1{
+    width: 25%;
+}
+.user2{
+    width: 25%;     
+}
+.img_1{
+    background-image: url(/img-src/king_w.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 30%;
+}
+.img_2{
+    background-image: url(/img-src/king_b.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 30%;
+}
+.space{
+    width: 7%;
+}
+.name{
+    width: min-content;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 7%;
+    font-family: 'Orbitron', sans-serif;
+    color: whitesmoke;
+    font-weight: 600;
+    font-size: x-large;
+    text-shadow: 2px 0 #fff, -2px 0 black, 0 2px black, 0 -2px black, 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
+    letter-spacing: 3px;
+}
+.timer{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    color: black;
+}
+.container_timer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    border: 5px solid #d18b47;
+    width: 60%;
+    height: 50%;
+    background-color:blanchedalmond;
+    border-radius: 40px;
+}
+#time_1, #time_2{
+    font-size: xx-large;
+    font-weight: 600;
+}
+#whoseturn_1, #whoseturn_2{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    color: black;
+    font-size: x-large;
+    font-weight: 600;
+    color: whitesmoke;
+}
+.pallet{
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.p1{
+    display: flex;
+    height: 40%;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.ig {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 30%;
+    border-radius: 100%;
+    margin: 10px;
+    overflow: hidden;
+    border: 5px solid #d18b47; 
+    text-align: center;
+    background-color:blanchedalmond;
+  }
+  
+.ig img {
+    object-fit: cover;
+    height: 60%;
+    width: 60%;
+}
+  
