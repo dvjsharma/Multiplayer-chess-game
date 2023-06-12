@@ -15,7 +15,22 @@ let flagg=true;
 let fr=null, fc=null, fnums=[];
 let pawncall=false;
 let pawncontrol=false;
+let user1=null, user2=null;
 
+//to add names to the document
+function NameFunc(){
+    user1=prompt("Enter your name if you wish to play as White");
+    user2=prompt("Enter your name if you wish to play as Black");
+    if(user1!=="" && user2!==""){
+        let upd=document.getElementsByClassName("name");
+        upd[0].innerHTML=`${user1}`;
+        upd[1].innerHTML=`${user2}`;
+    }
+    else{
+        alert("smarty uhm? space as name?")
+        NameFunc();
+    }
+}
 //for setting the alternate chessboard color schema (invoked directly as soon as the website loads)
 function ColorSetup(){
     let c=0;
@@ -848,6 +863,7 @@ const Click=(e)=>{
 // calling all setup functions on reload/restart
 ColorSetup(); //...(1)
 InitialBuild(); //...(2)
+// NameFunc();//...(3)
 
 //adding the first and global event listner to the whole chess board
 for(let i=0; i<cells.length; i++){
