@@ -1,5 +1,6 @@
 # Multiplayer Chess Game!
 This project is entirely developed from scratch using JavaScript. I have tried my best to optmize the approach on how to take decisions based on user input keys and how to visually present them. This was a challenging project in terms of the amout of time it took to build and since i didn't followed any tutorials, making my own logic work and fixing bugs was difficult. Yet i learnt loads form this project on how to manage large codebase and how to come up with a better and more efficient approach. I'll improve this further after learning react. 
+
 Do check out the website :) 
 ## Screenshots
 
