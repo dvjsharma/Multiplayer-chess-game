@@ -834,9 +834,11 @@ const Click=(e)=>{
                 
                 //updating the user interface
                 let para=document.getElementById(e.target.classList[1]);
-                let i=parseInt(para.innerHTML);
-                i++;
-                document.getElementById(e.target.classList[1]).innerHTML=`${String(i)}`;
+                if(para!==null){
+                    let i=parseInt(para.innerHTML);
+                    i++;
+                    document.getElementById(e.target.classList[1]).innerHTML=`${String(i)}`;
+                }
 
                 e.target.parentNode.innerHTML=`${inner}`;
                 document.getElementById(`${id}`).innerHTML=``;
@@ -883,7 +885,7 @@ const Click=(e)=>{
                 let win=checkmate(turn);
                 if(win===true){
                     if(initurn==="w"){
-                        let val=prompt(`Game over! White wins, another game? type yes or no :)`);
+                        let val=prompt(`Game over! ${user1} wins, another game? type yes or no :)`);
                         if(val==="yes"){
                             location.reload();
                         }
@@ -893,7 +895,7 @@ const Click=(e)=>{
                         }
                     }
                     else{
-                        let val=prompt(`Game over! Black wins, another game? type yes or no :)`);
+                        let val=prompt(`Game over! ${user2} wins, another game? type yes or no :)`);
                         if(val==="yes"){
                             location.reload();
                         }
