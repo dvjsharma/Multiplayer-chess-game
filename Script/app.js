@@ -82,7 +82,7 @@ function TimerU2(){
 function NameFunc(){
     user1=prompt("Enter your name if you wish to play as White");
     user2=prompt("Enter your name if you wish to play as Black");
-    if(user1!=="" && user2!==""){
+    if(user1!=="" && user2!=="" && user1!==null && user2!==null){
         let upd=document.getElementsByClassName("name");
         upd[0].innerHTML=`${user1}`;
         upd[1].innerHTML=`${user2}`;
@@ -91,7 +91,7 @@ function NameFunc(){
         // key1=true;
     }
     else{
-        alert("smarty uhm? space as name?")
+        alert("smarty uhm? please tell a name?")
         NameFunc();
     }
 }
