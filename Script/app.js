@@ -174,12 +174,7 @@ function datalistner(div, coloro){
                 }
             }
             else{
-                if(color==="w"){
-                    return [false, div];
-                }
-                else{
-                    return [false, div];
-                }
+                return [false, div];
             }
         }
         else if(coloro==="b"){
@@ -193,12 +188,7 @@ function datalistner(div, coloro){
                 }
             }
             else{
-                if(color==="w"){
-                    return [false, div];
-                }
-                else{
-                    return [false, div];
-                }
+                return [false, div];
             }
         }
     }
@@ -490,31 +480,16 @@ function pawn(string, coloro){
     let r= parseInt(string[0]), c=parseInt(string[1]);
     if(coloro==="w"){
         //+y just above
-        if(pawncontrol===false){
             let div=data(r-1,c);
             let flag=datalistner(div, coloro);
             if(flag[0]===true){
                 nums.push(flag[1]);
             }
-        }
-        else if(pawncontrol===true){
-            let ct=0;
-            for(let i=r-1; i>=0; i--){
-                ct++;
-                let div=data(i,c);
-                let flag=datalistner(div, coloro);
-                if(flag[0]===false){
-                    if(flag[1].classList[1]==="kill"){
-                        flag[1].classList.remove("kill");
-                    }
-                    break;
-                }
-                else{
-                nums.push(flag[1]);
-                }
-                if(ct==2){
-                    break;
-                }
+            if(pawncontrol===true){
+                let div2=data(r-2,c);
+                let flag2=datalistner(div2, coloro);
+                if(flag2[0]===true){
+                nums.push(flag2[1]);
             }
         }
         //hybrid kill function
@@ -545,30 +520,15 @@ function pawn(string, coloro){
         //-y just above
         let div=data(r+1,c);
         let flag=datalistner(div, coloro);
-        if(pawncontrol===false){
-            if(flag[0]===true){
-                nums.push(flag[1]);
-            }
+        if(flag[0]===true){
+            nums.push(flag[1]);
         }
-        else if(pawncontrol===true){
-            let ct=0;
-            for(let i=r+1; i<=7; i++){
-                ct++;
-                let div=data(i,c);
-                let flag=datalistner(div, coloro);
-                if(flag[0]===false){
-                    if(flag[1].classList[1]==="kill"){
-                        flag[1].classList.remove("kill");
-                    }
-                    break;
-                }
-                else{
-                nums.push(flag[1]);
-                }
-                if(ct==2){
-                    break;
-                }
-            }
+        if(pawncontrol===true){
+            let div=data(r+2,c);
+            let flag=datalistner(div, coloro);
+            if(flag[0]===true){
+            nums.push(flag[1]);
+        }
         }
         //hybrid kill function
         if(r+1<=7 && r+1>=0 && c-1<=7 && c-1>=0){
@@ -814,7 +774,7 @@ const Click=(e)=>{
         else if(key==="pawn"){
             if(e.target.classList[2]==="first"){
                 pawncontrol=true;
-            }
+            };
             pawn(e.target.parentNode.id, color);
         }
     }
@@ -847,18 +807,22 @@ const Click=(e)=>{
                 }
 
                 if(pawncontrol===true){  //pawn control case
-                    let pb=document.getElementsByClassName("pawn_b");
-                    let pw=document.getElementsByClassName("pawn_w");
-                    for(let i=0; i<pb.length; i++){
-                        if(pb[i].id[1]===id[1]){
-                           pb[i].classList.remove("first");
-                           pb[i].classList.add("second");
+                    if(turn==="b"){
+                        let pb=document.getElementsByClassName("pawn_b");
+                        for(let i=0; i<pb.length; i++){
+                            if(pb[i].id[1]===id[1]){
+                            pb[i].classList.remove("first");
+                            pb[i].classList.add("second");                    
+                            }
                         }
                     }
-                    for(let i=0; i<pw.length; i++){
-                        if(pw[i].id[1]===id[1]){
-                           pw[i].classList.remove("first");
-                           pw[i].classList.add("second");
+                    else{
+                        let pw=document.getElementsByClassName("pawn_w");
+                        for(let i=0; i<pw.length; i++){
+                            if(pw[i].id[1]===id[1]){
+                            pw[i].classList.remove("first");
+                            pw[i].classList.add("second");
+                            }
                         }
                     }
                     pawncontrol=false;
@@ -917,18 +881,22 @@ const Click=(e)=>{
                 }
 
                 if(pawncontrol===true){  //pawn control case
-                    let pb=document.getElementsByClassName("pawn_b");
-                    let pw=document.getElementsByClassName("pawn_w");
-                    for(let i=0; i<pb.length; i++){
-                        if(pb[i].id[1]===id[1]){
-                           pb[i].classList.remove("first");
-                           pb[i].classList.add("second");
+                    if(turn==="b"){
+                        let pb=document.getElementsByClassName("pawn_b");
+                        for(let i=0; i<pb.length; i++){
+                            if(pb[i].id[1]===id[1]){
+                            pb[i].classList.remove("first");
+                            pb[i].classList.add("second");
+                            }
                         }
                     }
-                    for(let i=0; i<pw.length; i++){
-                        if(pw[i].id[1]===id[1]){
-                           pw[i].classList.remove("first");
-                           pw[i].classList.add("second");
+                    else{
+                        let pw=document.getElementsByClassName("pawn_w");
+                        for(let i=0; i<pw.length; i++){
+                            if(pw[i].id[1]===id[1]){
+                            pw[i].classList.remove("first");
+                            pw[i].classList.add("second");
+                            }
                         }
                     }
                     pawncontrol=false;
