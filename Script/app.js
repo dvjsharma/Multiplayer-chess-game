@@ -22,7 +22,7 @@ let i2=document.getElementById("whoseturn_2");
 key1=true;
 key2=false;
 
-//timer functions
+//timer function
 function TimerU1(){
         if(key1===true){
             let currtime=document.getElementById("time_1").innerHTML;
@@ -49,8 +49,6 @@ function TimerU1(){
             let time1 = `${minutes}:${seconds}`;
             document.getElementById("time_1").innerHTML=`${time1}`;
         }
-}
-function TimerU2(){
         if(key2===true){
             let currtime=document.getElementById("time_2").innerHTML;
             let[minutes,seconds]=currtime.split(":");
@@ -932,7 +930,6 @@ const Click=(e)=>{
 ColorSetup(); //...(1)
 InitialBuild(); //...(2)
 const timer1=setInterval(TimerU1, 1000); //...(3)
-const timer2=setInterval(TimerU2, 1000); //...(4)
 NameFunc();//...(5)
 
 //adding the first and global event listner to the whole chess board
