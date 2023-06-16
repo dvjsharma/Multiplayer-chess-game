@@ -16,6 +16,11 @@ Do check out the website 😄
 - A virtual timer on both player's dashboard
 - Concepts like pawn promotion are included
 
+## Local Setup 
+ 
+``` npm install ```
 
-### Website Link
+run this command to install packages
+
+## Website Link
 https://multiplayer-chess-game-dvj.netlify.app/
