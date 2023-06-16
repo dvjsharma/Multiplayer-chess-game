@@ -1,0 +1,22 @@
+{
+  "name": "multiplayer-chess-game",
+  "version": "1.0.0",
+  "description": "a js project",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvjsharma/Multiplayer-chess-game.git"
+  },
+  "author": "Divij Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dvjsharma/Multiplayer-chess-game/issues"
+  },
+  "homepage": "https://github.com/dvjsharma/Multiplayer-chess-game#readme",
+  "dependencies": {
+    "chess.js": "^1.0.0-beta.6"
+  }
+}
