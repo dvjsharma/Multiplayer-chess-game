@@ -80,7 +80,7 @@ function TimerU1(){
 function NameFunc(){
     user1=prompt("Enter your name if you wish to play as White");
     user2=prompt("Enter your name if you wish to play as Black");
-    if(user1!=="" && user2!=="" && user1!==null && user2!==null){
+    if(user1.trim()!=="" && user2.trim()!=="" && user1!==null && user2!==null){
         let upd=document.getElementsByClassName("name");
         upd[0].innerHTML=`${user1}`;
         upd[1].innerHTML=`${user2}`;
@@ -478,12 +478,14 @@ function pawn(string, coloro){
     let r= parseInt(string[0]), c=parseInt(string[1]);
     if(coloro==="w"){
         //+y just above
+        let haha=false;
             let div=data(r-1,c);
             let flag=datalistner(div, coloro);
             if(flag[0]===true){
+                haha=true;
                 nums.push(flag[1]);
             }
-            if(pawncontrol===true){
+            if(pawncontrol===true && haha===true){
                 let div2=data(r-2,c);
                 let flag2=datalistner(div2, coloro);
                 if(flag2[0]===true){
@@ -516,12 +518,14 @@ function pawn(string, coloro){
     }
     else{
         //-y just above
+        let haha=false;
         let div=data(r+1,c);
         let flag=datalistner(div, coloro);
         if(flag[0]===true){
             nums.push(flag[1]);
+            haha=true;
         }
-        if(pawncontrol===true){
+        if(pawncontrol===true && haha===true){
             let div=data(r+2,c);
             let flag=datalistner(div, coloro);
             if(flag[0]===true){
